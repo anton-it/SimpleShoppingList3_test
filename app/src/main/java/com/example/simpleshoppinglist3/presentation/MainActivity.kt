@@ -68,7 +68,6 @@ class MainActivity : AppCompatActivity() {
 
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                 val item = shopListAdapter.currentList[viewHolder.adapterPosition]
-                val list = shopListAdapter.currentList
                 viewModel.deleteShopItem(item)
             }
         }

@@ -11,9 +11,8 @@ import java.util.TreeSet
 import kotlin.random.Random
 
 object ShopListRepositoryImpl : ShopItemRepository {
-
-//    private val shopList = sortedSetOf<ShopItem>({ p0, p1 -> p0.id.compareTo(p1.id)})
-    private var shopList = mutableListOf<ShopItem>()
+    private val shopList = sortedSetOf<ShopItem>({ p0, p1 -> p0.id.compareTo(p1.id)})
+//    private var shopList = mutableListOf<ShopItem>()
     private val shopListLD = MutableLiveData<List<ShopItem>>()
 
     private var autoIncrementId = 0
@@ -41,12 +40,7 @@ object ShopListRepositoryImpl : ShopItemRepository {
         sourcePosition: Int,
         targetPosition: Int
     ) {
-
-
-        Log.d("MyLog111", "Source position $sourcePosition   target position $targetPosition" )
-        Log.d("MyLog111", "Shop list OLD $shopList" )
-        Collections.swap(shopList, sourcePosition, targetPosition)
-        Log.d("MyLog111", "Shop lis NEW $shopList" )
+//        Collections.swap(shopList, sourcePosition, targetPosition)
 //        updateList()
     }
 
