@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.example.simpleshoppinglist3.R
+import java.util.Collections
 
 class MainActivity : AppCompatActivity() {
 
@@ -24,6 +25,12 @@ class MainActivity : AppCompatActivity() {
             shopListAdapter.submitList(it)
 
         }
+        val shopList = shopListAdapter.currentList
+
+        val list = listOf(0,1,2,3,4,5)
+        Log.d("MyLogg", "Collection 1 $list")
+        Collections.swap(list, 0,5)
+        Log.d("MyLogg", "Collection 2 $list")
 
     }
 
@@ -32,26 +39,36 @@ class MainActivity : AppCompatActivity() {
         shopListAdapter = ShopListAdapter()
         rvShopList.adapter = shopListAdapter
 
-        setumLongClickListener()
+        setupLongClickListener()
         setupClickListener()
         setupSwipeListener(rvShopList)
     }
 
     private fun setupSwipeListener(rvShopList: RecyclerView?) {
         val callback = object : ItemTouchHelper.SimpleCallback(
-            0,
-            ItemTouchHelper.RIGHT or ItemTouchHelper.LEFT or ItemTouchHelper.DOWN
+
+            ItemTouchHelper.UP or ItemTouchHelper.DOWN,
+            ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT
         ) {
             override fun onMove(
                 recyclerView: RecyclerView,
                 viewHolder: RecyclerView.ViewHolder,
                 target: RecyclerView.ViewHolder
             ): Boolean {
-                return false
+                val shopList = shopListAdapter.currentList
+                val sourcePosition = viewHolder.adapterPosition
+                val targetPosition = target.adapterPosition
+
+                viewModel.moveShopItem(sourcePosition, targetPosition)
+//
+//                Collections.swap(shopList, sourcePosition, targetPosition)
+
+                return true
             }
 
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                 val item = shopListAdapter.currentList[viewHolder.adapterPosition]
+                val list = shopListAdapter.currentList
                 viewModel.deleteShopItem(item)
             }
         }
@@ -65,9 +82,10 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun setumLongClickListener() {
+    private fun setupLongClickListener() {
         shopListAdapter.onShopItemLongClickListenerL = {
             viewModel.changeEnableState(it)
         }
     }
+
 }

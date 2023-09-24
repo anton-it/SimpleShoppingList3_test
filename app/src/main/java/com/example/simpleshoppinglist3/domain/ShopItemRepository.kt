@@ -14,4 +14,5 @@ interface ShopItemRepository {
     fun getShopItem(shopItemId: Int): ShopItem
 
     fun getShopList(): LiveData<List<ShopItem>>
+    fun moveShopItem(sourcePosition: Int, targetPosition: Int)
 }

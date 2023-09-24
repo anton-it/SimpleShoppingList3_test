@@ -1,20 +1,25 @@
 package com.example.simpleshoppinglist3.data
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.simpleshoppinglist3.domain.ShopItem
 import com.example.simpleshoppinglist3.domain.ShopItemRepository
+import com.example.simpleshoppinglist3.presentation.ShopListAdapter
+import java.util.Collections
+import java.util.TreeSet
 import kotlin.random.Random
 
 object ShopListRepositoryImpl : ShopItemRepository {
 
-    private val shopList = sortedSetOf<ShopItem>({ p0, p1 -> p0.id.compareTo(p1.id)})
+//    private val shopList = sortedSetOf<ShopItem>({ p0, p1 -> p0.id.compareTo(p1.id)})
+    private var shopList = mutableListOf<ShopItem>()
     private val shopListLD = MutableLiveData<List<ShopItem>>()
 
     private var autoIncrementId = 0
 
     init {
-        for(i in 0 until 1000) {
+        for(i in 0 until 10) {
             val item = ShopItem("Name $i", i, Random.nextBoolean())
             addShopItem(item)
         }
@@ -30,6 +35,19 @@ object ShopListRepositoryImpl : ShopItemRepository {
     override fun deleteShopItem(shopItem: ShopItem) {
         shopList.remove(shopItem)
         updateList()
+    }
+
+    override fun moveShopItem(
+        sourcePosition: Int,
+        targetPosition: Int
+    ) {
+
+
+        Log.d("MyLog111", "Source position $sourcePosition   target position $targetPosition" )
+        Log.d("MyLog111", "Shop list OLD $shopList" )
+        Collections.swap(shopList, sourcePosition, targetPosition)
+        Log.d("MyLog111", "Shop lis NEW $shopList" )
+//        updateList()
     }
 
     override fun editShopItem(shopItem: ShopItem) {
