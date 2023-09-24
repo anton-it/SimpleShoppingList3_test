@@ -40,6 +40,7 @@ object ShopListRepositoryImpl : ShopItemRepository {
         sourcePosition: Int,
         targetPosition: Int
     ) {
+        // TODO: Add moveUP-Down realisation
 //        Collections.swap(shopList, sourcePosition, targetPosition)
 //        updateList()
     }
