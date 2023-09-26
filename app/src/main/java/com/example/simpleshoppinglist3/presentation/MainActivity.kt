@@ -1,5 +1,6 @@
 package com.example.simpleshoppinglist3.presentation
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -7,6 +8,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.example.simpleshoppinglist3.R
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import java.util.Collections
 
 class MainActivity : AppCompatActivity() {
@@ -25,11 +27,17 @@ class MainActivity : AppCompatActivity() {
             shopListAdapter.submitList(it)
 
         }
-        val shopList = shopListAdapter.currentList
 
-        val list = listOf(0,1,2,3,4,5)
+        val buttonAddItem = findViewById<FloatingActionButton>(R.id.button_add_shop_item)
+        buttonAddItem.setOnClickListener {
+            val intent = ShopItemActivity.newIntentAddItem(this)
+            startActivity(intent)
+        }
+
+
+        val list = listOf(0, 1, 2, 3, 4, 5)
         Log.d("MyLogg", "Collection 1 $list")
-        Collections.swap(list, 0,5)
+        Collections.swap(list, 0, 5)
         Log.d("MyLogg", "Collection 2 $list")
 
     }
@@ -78,7 +86,11 @@ class MainActivity : AppCompatActivity() {
     private fun setupClickListener() {
         shopListAdapter.onShopItemClickListener = {
             Log.d("MyLog111", "You click shop item id: ${it.id}")
+
+            val intent = ShopItemActivity.newIntentEditItem(this, it.id)
+            startActivity(intent)
         }
+
     }
 
     private fun setupLongClickListener() {
@@ -86,5 +98,4 @@ class MainActivity : AppCompatActivity() {
             viewModel.changeEnableState(it)
         }
     }
-
 }
