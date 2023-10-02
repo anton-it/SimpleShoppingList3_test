@@ -8,13 +8,14 @@ import android.text.TextWatcher
 import android.util.Log
 import android.widget.Button
 import android.widget.EditText
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.example.simpleshoppinglist3.R
 import com.example.simpleshoppinglist3.domain.ShopItem
 import com.google.android.material.textfield.TextInputLayout
 
-class ShopItemActivity : AppCompatActivity() {
+class ShopItemActivity : AppCompatActivity(), ShopItemFragment.OnEditingFinishedListener {
 
     private var screenMode = MODE_UNKNOWN
     private var shopItemId = ShopItem.UNDEFINED_ID
@@ -26,7 +27,11 @@ class ShopItemActivity : AppCompatActivity() {
         if (savedInstanceState == null) {
             launchRightScreenMode()
         }
+    }
 
+    override fun onEditingFinished() {
+        Toast.makeText(this, R.string.success, Toast.LENGTH_SHORT).show()
+        finish()
     }
 
     private fun launchRightScreenMode() {

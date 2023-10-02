@@ -4,6 +4,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
@@ -11,7 +12,7 @@ import com.example.simpleshoppinglist3.R
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import java.util.Collections
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), ShopItemFragment.OnEditingFinishedListener {
 
     private lateinit var viewModel: MainViewModel
     private lateinit var shopListAdapter: ShopListAdapter
@@ -34,12 +35,17 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-
         val list = listOf(0, 1, 2, 3, 4, 5)
         Log.d("MyLogg", "Collection 1 $list")
         Collections.swap(list, 0, 5)
         Log.d("MyLogg", "Collection 2 $list")
 
+    }
+
+    override fun onEditingFinished() {
+//        Так как при перевороте экрана функционал размещения одновременно Activity и Fragment отключен
+//        Toast.makeText(this, "Success", Toast.LENGTH_SHORT).show()
+//        supportFragmentManager.popBackStack()
     }
 
     private fun setupRecyclerView() {
