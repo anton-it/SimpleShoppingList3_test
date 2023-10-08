@@ -32,6 +32,8 @@ class ShopItemFragment() : Fragment() {
     private var shopItemId: Int = ShopItem.UNDEFINED_ID
 
     override fun onAttach(context: Context) {
+        Log.d("ShopItemFragment", "onAttach")
+        Log.d("ShopItemFragment", "===================================")
         super.onAttach(context)
         if (context is OnEditingFinishedListener) {
             onEditingFinishedListener = context
@@ -54,10 +56,15 @@ class ShopItemFragment() : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        Log.d("ShopItemFragment", "onCreateView")
+        Log.d("ShopItemFragment", "===================================")
         return layoutInflater.inflate(R.layout.fragment_shop_item, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        Log.d("ShopItemFragment", "onViewCreated")
+        Log.d("ShopItemFragment", "===================================")
+        super.onCreate(savedInstanceState)
         super.onViewCreated(view, savedInstanceState)
 
         viewModel = ViewModelProvider(this)[ShopItemViewModel::class.java]
@@ -66,6 +73,54 @@ class ShopItemFragment() : Fragment() {
         launchRightScreenMode()
         observeViewModel()
     }
+
+    //////////////////////////////////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////////////////////////////////////
+    override fun onStart() {
+        Log.d("ShopItemFragment", "onStart")
+        Log.d("ShopItemFragment", "===================================")
+        super.onStart()
+    }
+
+    override fun onResume() {
+        Log.d("ShopItemFragment", "onResume")
+        Log.d("ShopItemFragment", "===================================")
+        super.onResume()
+    }
+
+    override fun onPause() {
+        Log.d("ShopItemFragment", "onPause")
+        Log.d("ShopItemFragment", "===================================")
+        super.onPause()
+    }
+
+    override fun onStop() {
+        Log.d("ShopItemFragment", "onStop")
+        Log.d("ShopItemFragment", "===================================")
+        super.onStop()
+    }
+
+    override fun onDestroyView() {
+        Log.d("ShopItemFragment", "onDestroyView")
+        Log.d("ShopItemFragment", "===================================")
+        super.onDestroyView()
+    }
+
+    override fun onDestroy() {
+        Log.d("ShopItemFragment", "onDestroy")
+        Log.d("ShopItemFragment", "===================================")
+        super.onDestroy()
+    }
+
+    override fun onDetach() {
+        Log.d("ShopItemFragment", "onDetach")
+        Log.d("ShopItemFragment", "===================================")
+        super.onDetach()
+    }
+
+
+    /////////////////////////////////////////////////////////////////////////////////////
+
 
     private fun observeViewModel() {
         viewModel.errorInputName.observe(viewLifecycleOwner) {
