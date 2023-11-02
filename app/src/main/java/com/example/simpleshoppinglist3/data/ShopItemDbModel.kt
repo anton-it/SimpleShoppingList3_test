@@ -8,8 +8,7 @@ import com.example.simpleshoppinglist3.domain.ShopItem
 data class ShopItemDbModel(
     @PrimaryKey(autoGenerate = true)
     val id: Int,
-    val count: Int,
     val name: String,
+    val count: Int,
     val enabled: Boolean
-
 )

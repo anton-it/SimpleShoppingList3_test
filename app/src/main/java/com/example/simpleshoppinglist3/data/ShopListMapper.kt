@@ -4,7 +4,7 @@ import com.example.simpleshoppinglist3.domain.ShopItem
 
 class ShopListMapper {
 
-    fun mupEntityToDbModel(shopItem: ShopItem): ShopItemDbModel {
+    fun mapEntityToDbModel(shopItem: ShopItem): ShopItemDbModel  {
         return ShopItemDbModel(
             id = shopItem.id,
             name = shopItem.name,
@@ -13,7 +13,7 @@ class ShopListMapper {
         )
     }
 
-    fun mapDbModelToEntity(shopItemDbModel: ShopItemDbModel): ShopItem {
+    fun mapDbModelToEntity (shopItemDbModel: ShopItemDbModel): ShopItem  {
         return ShopItem(
             id = shopItemDbModel.id,
             name = shopItemDbModel.name,
