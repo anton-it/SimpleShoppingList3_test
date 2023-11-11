@@ -16,6 +16,9 @@ class MainActivity : AppCompatActivity(), ShopItemFragment.OnEditingFinishedList
 
     private lateinit var viewModel: MainViewModel
     private lateinit var shopListAdapter: ShopListAdapter
+
+    private var baskPressedTime: Long = 0
+    private var backToast: Toast? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -40,6 +43,19 @@ class MainActivity : AppCompatActivity(), ShopItemFragment.OnEditingFinishedList
         Collections.swap(list, 0, 5)
         Log.d("MyLogg", "Collection 2 $list")
 
+    }
+
+    override fun onBackPressed() {
+        if (baskPressedTime + 2000 > System.currentTimeMillis()) {
+            backToast?.cancel()
+            super.onBackPressed()
+            return
+        } else {
+            backToast =
+                Toast.makeText(baseContext, R.string.exit_message, Toast.LENGTH_SHORT)
+            backToast?.show()
+        }
+        baskPressedTime = System.currentTimeMillis()
     }
 
     override fun onEditingFinished() {
