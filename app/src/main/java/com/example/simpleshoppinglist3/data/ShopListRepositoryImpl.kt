@@ -47,10 +47,11 @@ class ShopListRepositoryImpl(
         mapper.mapListDbModelToListEntity(it)
     }
 
-    override fun moveShopItem(
+    override suspend fun moveShopItem(
         sourcePosition: Int,
         targetPosition: Int
     ) {
+
         // TODO: Add moveUP-Down realisation
 //        Collections.swap(shopList, sourcePosition, targetPosition)
 //        updateList()

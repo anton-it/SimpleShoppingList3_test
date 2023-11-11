@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 
 class MoveShopItemUseCase(private val repository: ShopItemRepository) {
 
-    fun moveShopItem(sourcePosition: Int, targetPosition: Int) {
+    suspend fun moveShopItem(sourcePosition: Int, targetPosition: Int) {
 
         repository.moveShopItem(sourcePosition, targetPosition)
 

@@ -74,8 +74,8 @@ class MainActivity : AppCompatActivity(), ShopItemFragment.OnEditingFinishedList
                 val targetPosition = target.adapterPosition
 
                 viewModel.moveShopItem(sourcePosition, targetPosition)
-//
-//                Collections.swap(shopList, sourcePosition, targetPosition)
+
+               Collections.swap(shopList, sourcePosition, targetPosition)
 
                 return true
             }

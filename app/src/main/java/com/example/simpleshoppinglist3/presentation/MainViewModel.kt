@@ -41,7 +41,8 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     fun moveShopItem(sourcePosition: Int, targetPosition: Int) {
-        moveShopItemUseCase.moveShopItem(sourcePosition, targetPosition)
+        viewModelScope.launch {
+            moveShopItemUseCase.moveShopItem(sourcePosition, targetPosition)
+        }
     }
-
 }
