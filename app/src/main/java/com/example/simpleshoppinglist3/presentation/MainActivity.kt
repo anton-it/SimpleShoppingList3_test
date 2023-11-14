@@ -77,7 +77,8 @@ class MainActivity : AppCompatActivity(), ShopItemFragment.OnEditingFinishedList
     private fun setupSwipeListener(rvShopList: RecyclerView?) {
         val callback = object : ItemTouchHelper.SimpleCallback(
 
-            ItemTouchHelper.UP or ItemTouchHelper.DOWN,
+            //ItemTouchHelper.UP or ItemTouchHelper.DOWN,
+            0,
             ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT
         ) {
             override fun onMove(
@@ -91,9 +92,9 @@ class MainActivity : AppCompatActivity(), ShopItemFragment.OnEditingFinishedList
 
                 viewModel.moveShopItem(sourcePosition, targetPosition)
 
-               Collections.swap(shopList, sourcePosition, targetPosition)
+               //Collections.swap(shopList, sourcePosition, targetPosition)
 
-                return true
+                return false
             }
 
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
