@@ -5,10 +5,12 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.example.simpleshoppinglist3.R
+import com.example.simpleshoppinglist3.databinding.CustomDialogViewBinding
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import java.util.Collections
 
@@ -43,6 +45,25 @@ class MainActivity : AppCompatActivity(), ShopItemFragment.OnEditingFinishedList
         Collections.swap(list, 0, 5)
         Log.d("MyLogg", "Collection 2 $list")
 
+        showHelpDialog()
+
+    }
+
+    private fun showHelpDialog() {
+        val dialogBinding = CustomDialogViewBinding.inflate(layoutInflater)
+        //val view = View.inflate(this@MainActivity, R.layout.dialog_view, null)
+
+        val builder = AlertDialog.Builder(this@MainActivity)
+        //builder.setView(view)
+        builder.setView(dialogBinding.root)
+
+        val dialog = builder.create()
+        dialog.show()
+        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+
+        dialogBinding.btnConfirm.setOnClickListener {
+            dialog.dismiss()
+        }
     }
 
     override fun onBackPressed() {

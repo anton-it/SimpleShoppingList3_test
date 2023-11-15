@@ -8,4 +8,7 @@
     <string name="error_input_count">Invalid count</string>
     <string name="success">Success</string>
     <string name="exit_message">Нажмите еще раз чтобы выйти</string>
+    <string name="custom_dialog_delimiter">______________________________________________</string>
+    <string name="custom_dialog_text_hello">Привет!</string>
+    <string name="custom_dialog_text_welcome">Добро пожаловать в список покупок!</string>
 </resources>
