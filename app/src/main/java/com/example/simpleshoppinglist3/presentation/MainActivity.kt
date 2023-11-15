@@ -1,6 +1,8 @@
 package com.example.simpleshoppinglist3.presentation
 
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -14,6 +16,9 @@ import com.example.simpleshoppinglist3.databinding.CustomDialogViewBinding
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import java.util.Collections
 
+
+const val APP_PREFERENCES = "APP_PREFERENCES"
+const val PREF_FIRST_START_APP = "1"
 class MainActivity : AppCompatActivity(), ShopItemFragment.OnEditingFinishedListener {
 
     private lateinit var viewModel: MainViewModel
@@ -21,6 +26,9 @@ class MainActivity : AppCompatActivity(), ShopItemFragment.OnEditingFinishedList
 
     private var baskPressedTime: Long = 0
     private var backToast: Toast? = null
+
+    private lateinit var preferences: SharedPreferences
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -45,8 +53,23 @@ class MainActivity : AppCompatActivity(), ShopItemFragment.OnEditingFinishedList
         Collections.swap(list, 0, 5)
         Log.d("MyLogg", "Collection 2 $list")
 
-        showHelpDialog()
+        checkFirstStartApp()
+    }
 
+    private fun checkFirstStartApp() {
+
+        preferences = getSharedPreferences(APP_PREFERENCES, MODE_PRIVATE)
+
+        val value = preferences.getString(PREF_FIRST_START_APP, APP_FIRS_START_TRUE)
+        if (value == "1") {
+            preferences.edit()
+                .putString(PREF_FIRST_START_APP, APP_FIRS_START_FALSE)
+                .apply()
+
+            showHelpDialog()
+        } else {
+            return
+        }
     }
 
     private fun showHelpDialog() {
@@ -141,5 +164,11 @@ class MainActivity : AppCompatActivity(), ShopItemFragment.OnEditingFinishedList
         shopListAdapter.onShopItemLongClickListenerL = {
             viewModel.changeEnableState(it)
         }
+    }
+
+    companion object {
+
+        private const val APP_FIRS_START_TRUE = "1"
+        private const val APP_FIRS_START_FALSE = "0"
     }
 }
