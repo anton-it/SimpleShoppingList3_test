@@ -1,15 +1,15 @@
 <resources>
     <string name="app_name">Simple Shopping List 3</string>
-    <string name="add_shop_item_content_description">Добавить новый товар</string>
-    <string name="name_hint">Название товара:</string>
-    <string name="count_hint">Колличество:</string>
-    <string name="save_btn">Сохранить</string>
-    <string name="error_input_name">Недопустимое имя</string>
-    <string name="error_input_count">Недопустимое колличество</string>
-    <string name="success">Успешно добавлено</string>
-    <string name="exit_message">Нажмите еще раз чтобы выйти</string>
+    <string name="add_shop_item_content_description">Add a new product</string>
+    <string name="name_hint">Product name:</string>
+    <string name="count_hint">Product count:</string>
+    <string name="save_btn">Save</string>
+    <string name="error_input_name">Invalid name</string>
+    <string name="error_input_count">Invalid count</string>
+    <string name="success">Successfully added</string>
+    <string name="exit_message">Click again to exit</string>
     <string name="custom_dialog_delimiter">______________________________________________</string>
-    <string name="custom_dialog_text_hello">Привет!</string>
-    <string name="custom_dialog_text_welcome">Добро пожаловать в список покупок!</string>
-    <string name="button_ok">ОК</string>
+    <string name="custom_dialog_text_hello">Hello!</string>
+    <string name="custom_dialog_text_welcome">Welcome to the shopping list!</string>
+    <string name="button_ok">OK</string>
 </resources>

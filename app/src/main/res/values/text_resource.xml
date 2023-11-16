@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="start_game_description">- Для добавления нового товара нажми "+". \n\n
-        - Для удаления товара сделай свайп вправо или влево. \n\n
-        - Что бы выделить купленный товар, удерживай его долгим кликом. \n\n
-        - Что бы изменить товар, нажми на него коротким кликом.</string>
+    <string name="start_game_description">- To add a new product, click "+". \n\n
+        - To delete the product, swipe right or left. \n\n
+        - To highlight the purchased product, hold it with a long click. \n\n
+        - To change the product, click on it with a short click.</string>
 
 </resources>
