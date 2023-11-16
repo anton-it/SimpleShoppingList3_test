@@ -68,6 +68,7 @@ class MainActivity : AppCompatActivity(), ShopItemFragment.OnEditingFinishedList
 
             showHelpDialog()
         } else {
+            showHelpDialog()
             return
         }
     }
