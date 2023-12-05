@@ -9,6 +9,6 @@ data class ShopItemDbModel(
     @PrimaryKey(autoGenerate = true)
     val id: Int,
     val name: String,
-    val count: Int,
+    val count: String,
     val enabled: Boolean
 )

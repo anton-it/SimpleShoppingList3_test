@@ -61,7 +61,7 @@ class MainActivity : AppCompatActivity(), ShopItemFragment.OnEditingFinishedList
         preferences = getSharedPreferences(APP_PREFERENCES, MODE_PRIVATE)
 
         val value = preferences.getString(PREF_FIRST_START_APP, APP_FIRS_START_TRUE)
-        if (value == "1") {
+        if (value == APP_FIRS_START_TRUE) {
             preferences.edit()
                 .putString(PREF_FIRST_START_APP, APP_FIRS_START_FALSE)
                 .apply()

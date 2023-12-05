@@ -1,21 +1,17 @@
 package com.example.simpleshoppinglist3.presentation
 
 import android.app.Application
+import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.simpleshoppinglist3.data.ShopListRepositoryImpl
 import com.example.simpleshoppinglist3.domain.AddShopItemUseCase
 import com.example.simpleshoppinglist3.domain.EditShopItemUseCase
 import com.example.simpleshoppinglist3.domain.GetShopItemUseCase
 import com.example.simpleshoppinglist3.domain.ShopItem
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
-import java.lang.Exception
 
 class ShopItemViewModel(application: Application) : AndroidViewModel(application) {
 
@@ -76,25 +72,33 @@ class ShopItemViewModel(application: Application) : AndroidViewModel(application
         }
     }
 
+
     private fun parseName(inputName: String?): String {
         return inputName?.trim() ?: ""
     }
 
-    private fun parseCount(inputCount: String?): Int {
-        return try {
-            inputCount?.trim()?.toInt() ?: 0
-        } catch (e: Exception) {
-            0
-        }
+    private fun parseCount(inputCount: String?): String {
+
+        inputCount?.trim()
+        return inputCount ?: ""
+
+        //
+//        return try {
+//            inputCount?.trim()?.toFloat() ?: 1F
+//            inputCount?.trim()?.toFloat() ?: 0
+//        } catch (e: Exception) {
+//            0F
     }
 
-    private fun validationInput(name: String, count: Int): Boolean {
+    private fun validationInput(name: String, count: String): Boolean {
         var result = true
         if (name.isBlank()) {
             _errorInputName.value = true
             result = false
         }
-        if (count <= 0) {
+        if (count == "0" || count == "0." || count == "0." || count == "1." || count == "2."
+            || count == "3." || count == "4." || count == "5." || count == "6." || count == "7."
+            || count == "8." || count == "9.") {
             _errorInputCount.value = true
             result = false
         }
@@ -113,3 +117,6 @@ class ShopItemViewModel(application: Application) : AndroidViewModel(application
         _shouldCloseScreen.value = Unit
     }
 }
+
+
+

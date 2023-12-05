@@ -172,6 +172,51 @@ class ShopItemFragment() : Fragment() {
 
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
                 viewModel.resetErrorInputCount()
+
+// Проверка корректности ввода 0. Автоматически ставит точку после нуля
+
+
+                var oldInput = etCount?.text.toString()
+                var newInput = ""
+
+                if (oldInput.count() > 1) {
+                    if (oldInput[0] == '0' && oldInput[1] != '.' && oldInput[1] != '.') {
+                        newInput = etCount?.text?.get(1)?.toString().toString()
+                        oldInput = "0.${newInput}"
+                        Log.d("MyLog111", oldInput)
+                        etCount.setText(oldInput)
+                        etCount.setSelection(etCount.getText().count());
+                    }
+                }
+
+// Проверка корректности ввода точки. Убирает первый символ если это точка.
+
+                if (oldInput.count() == 1) {
+                    if (oldInput[0] == '.' || oldInput[0] == '.') {
+                        oldInput = ""
+                        etCount.setText(oldInput)
+                    }
+                }
+
+// Проверка коректности ввода третьего символа. Не допускает установку 0.0
+
+                if (oldInput.count() == 3) {
+                    if (oldInput[0] == '0' && oldInput[1] == '.' && oldInput[2] == '0') {
+                        oldInput = "0."
+                        etCount.setText(oldInput)
+                        etCount.setSelection(etCount.getText().count());
+                    }
+                }
+// Проверка корректности ввода третьего символа. Не допускаеть установку третьего символа точку
+                if (oldInput.count() == 3) {
+                    if (oldInput[2] == '.' || oldInput[2] == '.') {
+                        val oldInputIndexOne = etCount?.text?.get(0)?.toString().toString()
+                        val oldInputIndexTwo = etCount?.text?.get(1)?.toString().toString()
+                        oldInput = "$oldInputIndexOne$oldInputIndexTwo"
+                        etCount.setText(oldInput)
+                        etCount.setSelection(etCount.getText().count());
+                    }
+                }
             }
 
             override fun afterTextChanged(p0: Editable?) {
@@ -202,7 +247,7 @@ class ShopItemFragment() : Fragment() {
         if (!args.containsKey(SCREEN_MODE)) {
             throw RuntimeException("Param screen mode is absent")
         }
-        val mode = args.getString(SCREEN_MODE, )
+        val mode = args.getString(SCREEN_MODE)
         if (mode != MODE_EDIT && mode != MODE_ADD) {
             throw RuntimeException("Unknown screen mode $mode")
         }
