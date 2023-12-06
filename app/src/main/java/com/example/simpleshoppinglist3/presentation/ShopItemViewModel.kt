@@ -37,6 +37,10 @@ class ShopItemViewModel(application: Application) : AndroidViewModel(application
     val shouldCloseScreen: LiveData<Unit>
         get() = _shouldCloseScreen
 
+    private val _errorInputCountCheck = MutableLiveData<String>()
+    val errorInputCountCheck: LiveData<String>
+        get() = _errorInputCountCheck
+
     fun getShopItem(shipItemId: Int) {
         viewModelScope.launch {
             val item = getShopItemUseCase.getShopItem(shipItemId)
@@ -98,11 +102,63 @@ class ShopItemViewModel(application: Application) : AndroidViewModel(application
         }
         if (count == "0" || count == "0." || count == "0." || count == "1." || count == "2."
             || count == "3." || count == "4." || count == "5." || count == "6." || count == "7."
-            || count == "8." || count == "9.") {
+            || count == "8." || count == "9."
+        ) {
             _errorInputCount.value = true
             result = false
         }
         return result
+    }
+
+    fun validateInputCountSymbols(inputCountCheck: String) {
+        // Проверка корректности ввода 0. Автоматически ставит точку после нуля
+
+        var oldInput = inputCountCheck
+        var newInput = ""
+
+        if (oldInput.count() > 1) {
+            if (oldInput[0] == '0' && oldInput[1] != '.' && oldInput[1] != '.') {
+                newInput = inputCountCheck[1].toString()
+                oldInput = "0.${newInput}"
+                Log.d("MyLog111", oldInput)
+//                        etCount.setText(oldInput)
+//                        etCount.setSelection(etCount.getText().count());
+                _errorInputCountCheck.value = oldInput
+            }
+        }
+
+// Проверка корректности ввода точки. Убирает первый символ если это точка.
+
+        if (oldInput.count() == 1) {
+            if (oldInput[0] == '.' || oldInput[0] == '.') {
+                oldInput = ""
+//                        etCount.setText(oldInput)
+                _errorInputCountCheck.value = oldInput
+            }
+        }
+
+// Проверка коректности ввода третьего символа. Не допускает установку 0.0
+
+        if (oldInput.count() == 3) {
+            if (oldInput[0] == '0' && oldInput[1] == '.' && oldInput[2] == '0') {
+                oldInput = "0."
+//                        etCount.setText(oldInput)
+//                        etCount.setSelection(etCount.getText().count());
+                _errorInputCountCheck.value = oldInput
+            }
+        }
+// Проверка корректности ввода третьего символа. Не допускаеть установку третьего символа точку
+        if (oldInput.count() == 3) {
+            if (oldInput[2] == '.' || oldInput[2] == '.') {
+                val oldInputIndexOne = inputCountCheck[0].toString()
+                val oldInputIndexTwo = inputCountCheck[1].toString()
+                oldInput = "$oldInputIndexOne$oldInputIndexTwo"
+//                        etCount.setText(oldInput)
+//                        etCount.setSelection(etCount.getText().count());
+                _errorInputCountCheck.value = oldInput
+            }
+        }
+        Log.d("MyLog111", oldInput)
     }
 
     fun resetErrorInputName() {
