@@ -12,4 +12,11 @@
     <string name="custom_dialog_text_hello">Hello!</string>
     <string name="custom_dialog_text_welcome">Welcome to the shopping list!</string>
     <string name="button_ok">OK</string>
+    <string name="button_cancel">Cancel</string>
+    <string name="all_item_enable">Make all products active?</string>
+    <string name="all_item_disable">Make all products inactive?</string>
+    <string name="all_item_delete">Delete all products?</string>
+    <string name="menu_title_enable_all_items">Enable all products</string>
+    <string name="menu_title_disable_all_items">Disable all products</string>
+    <string name="menu_title_delete_all_items">Delete all products</string>
 </resources>

@@ -12,4 +12,11 @@
     <string name="custom_dialog_text_hello">Привет!</string>
     <string name="custom_dialog_text_welcome">Добро пожаловать в список покупок!</string>
     <string name="button_ok">ОК</string>
+    <string name="button_cancel">Отмена</string>
+    <string name="all_item_enable">Сделать все товары активными?</string>
+    <string name="all_item_disable">Сделать все товары не активными?</string>
+    <string name="all_item_delete">Удалить все товары?</string>
+    <string name="menu_title_enable_all_items">Сделать все товары активными</string>
+    <string name="menu_title_disable_all_items">Сделать все товары не активными</string>
+    <string name="menu_title_delete_all_items">Удалить все товары</string>
 </resources>

@@ -1,18 +1,20 @@
 package com.example.simpleshoppinglist3.presentation
 
-import android.content.Context
-import android.content.Intent
 import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.Menu
+import android.view.MenuItem
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.example.simpleshoppinglist3.R
-import com.example.simpleshoppinglist3.databinding.CustomDialogViewBinding
+import com.example.simpleshoppinglist3.databinding.CustomConfirmDialogViewBinding
+import com.example.simpleshoppinglist3.databinding.CustomHelpDialogViewBinding
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import java.util.Collections
 
@@ -29,17 +31,22 @@ class MainActivity : AppCompatActivity(), ShopItemFragment.OnEditingFinishedList
 
     private lateinit var preferences: SharedPreferences
 
+    private lateinit var customToolbarMenu: Toolbar
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+//
+//        customToolbar = findViewById(R.id.toolbar)
+//        customToolbar.title = ""
+//        setSupportActionBar(customToolbar)
 
         setupRecyclerView()
+        initCustomToolbarMenu()
 
         viewModel = ViewModelProvider(this)[MainViewModel::class.java]
         viewModel.shopList.observe(this) {
-
             shopListAdapter.submitList(it)
-
         }
 
         val buttonAddItem = findViewById<FloatingActionButton>(R.id.button_add_shop_item)
@@ -54,6 +61,35 @@ class MainActivity : AppCompatActivity(), ShopItemFragment.OnEditingFinishedList
         Log.d("MyLogg", "Collection 2 $list")
 
         checkFirstStartApp()
+    }
+
+    private fun initCustomToolbarMenu() {
+        customToolbarMenu = findViewById(R.id.toolbar)
+        customToolbarMenu.title = ""
+        setSupportActionBar(customToolbarMenu)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.custom_toolbar_menu, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        val onPressItemId = item.itemId
+
+        if (onPressItemId == R.id.delete_all_shop_item) {
+            showConfirmDialog(onPressItemId)
+        }
+        if (onPressItemId == R.id.enable_all_shop_item) {
+            showConfirmDialog(onPressItemId)
+        }
+        if (onPressItemId == R.id.disable_all_shop_item) {
+            showConfirmDialog(onPressItemId)
+        }
+//        if (onPressItemId == R.id.send_item) {
+//            Toast.makeText(this, "Send items list", Toast.LENGTH_SHORT).show()
+//        }
+        return true
     }
 
     private fun checkFirstStartApp() {
@@ -73,8 +109,42 @@ class MainActivity : AppCompatActivity(), ShopItemFragment.OnEditingFinishedList
         }
     }
 
+    private fun showConfirmDialog(onPressItemId: Int) {
+
+        val itemList = shopListAdapter.currentList
+
+        val dialogBinding = CustomConfirmDialogViewBinding.inflate(layoutInflater)
+
+        val builder = AlertDialog.Builder(this@MainActivity)
+        builder.setView(dialogBinding.root)
+        val dialog = builder.create()
+        when(onPressItemId) {
+            R.id.enable_all_shop_item ->
+                dialogBinding.etTextMessage.text = getText(R.string.all_item_enable)
+            R.id.disable_all_shop_item ->
+                dialogBinding.etTextMessage.text = getText(R.string.all_item_disable)
+            R.id.delete_all_shop_item ->
+                dialogBinding.etTextMessage.text = getText(R.string.all_item_delete)
+        }
+        dialog.show()
+        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+
+        dialogBinding.btnConfirm.setOnClickListener {
+            when(onPressItemId) {
+                R.id.enable_all_shop_item -> viewModel.changeAllEnableState(itemList)
+                R.id.disable_all_shop_item -> viewModel.changeAllDisableState(itemList)
+                R.id.delete_all_shop_item -> viewModel.deleteAllShopItem(itemList)
+            }
+            dialog.dismiss()
+        }
+        dialogBinding.btnCancel.setOnClickListener {
+            dialog.dismiss()
+        }
+
+    }
+
     private fun showHelpDialog() {
-        val dialogBinding = CustomDialogViewBinding.inflate(layoutInflater)
+        val dialogBinding = CustomHelpDialogViewBinding.inflate(layoutInflater)
         //val view = View.inflate(this@MainActivity, R.layout.dialog_view, null)
 
         val builder = AlertDialog.Builder(this@MainActivity)
@@ -83,7 +153,7 @@ class MainActivity : AppCompatActivity(), ShopItemFragment.OnEditingFinishedList
 
         val dialog = builder.create()
         dialog.show()
-        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+//        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
 
         dialogBinding.btnConfirm.setOnClickListener {
             dialog.dismiss()

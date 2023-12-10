@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+<item
+    app:showAsAction="always"
+    android:icon="@drawable/ic_headline"
+    android:title="">
+    <menu>
+    <item
+        android:id="@+id/enable_all_shop_item"
+        android:title="@string/menu_title_enable_all_items"
+        android:icon="@drawable/ic_image"/>
+    <item
+        android:id="@+id/disable_all_shop_item"
+        android:title="@string/menu_title_disable_all_items"
+        android:icon="@drawable/ic_hide_image"/>
+
+    <item
+        android:id="@+id/delete_all_shop_item"
+        android:title="@string/menu_title_delete_all_items"
+        android:icon="@drawable/ic_delete"/>
+
+    </menu>
+
+</item>
+  <!--  <item
+        android:id="@+id/send_item"
+        android:title="Send items list"/> -->
+
+
+</menu>

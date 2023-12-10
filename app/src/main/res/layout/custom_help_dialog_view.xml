@@ -73,7 +73,7 @@
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:background="@drawable/custom_dialog_bg_iv"
-        android:src="@drawable/is_warning"
+        android:src="@drawable/ic_warning"
         android:padding="8dp"
         app:layout_constraintBottom_toTopOf="@id/ll"
         app:layout_constraintTop_toTopOf="@id/ll"

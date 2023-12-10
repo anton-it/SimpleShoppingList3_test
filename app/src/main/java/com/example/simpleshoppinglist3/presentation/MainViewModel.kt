@@ -2,7 +2,6 @@ package com.example.simpleshoppinglist3.presentation
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.simpleshoppinglist3.data.ShopListRepositoryImpl
 import com.example.simpleshoppinglist3.domain.DeleteShopItemUseCase
@@ -10,11 +9,7 @@ import com.example.simpleshoppinglist3.domain.EditShopItemUseCase
 import com.example.simpleshoppinglist3.domain.GetShopListUseCase
 import com.example.simpleshoppinglist3.domain.MoveShopItemUseCase
 import com.example.simpleshoppinglist3.domain.ShopItem
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
-import java.util.Collections
 
 class MainViewModel(application: Application) : AndroidViewModel(application) {
 
@@ -33,10 +28,36 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
+    fun deleteAllShopItem(shopItemList: MutableList<ShopItem>) {
+        for (shopItem in 0 until shopItemList.size) {
+            viewModelScope.launch {
+                deleteShopItemUseCase.deleteShopItem(shopItemList[shopItem])
+            }
+        }
+    }
+
     fun changeEnableState(shopItem: ShopItem) {
         val newItem = shopItem.copy(enabled = !shopItem.enabled)
         viewModelScope.launch {
             editShopItemUseCase.editShopItem(newItem)
+        }
+    }
+
+    fun changeAllEnableState(shopItemList: MutableList<ShopItem>) {
+        for (shopItem in 0 until shopItemList.size) {
+            val newItem = shopItemList[shopItem].copy(enabled = true)
+            viewModelScope.launch {
+                editShopItemUseCase.editShopItem(newItem)
+            }
+        }
+    }
+
+    fun changeAllDisableState(itemList: MutableList<ShopItem>) {
+        for (shopItem in 0 until itemList.size) {
+            val newItem = itemList[shopItem].copy(enabled = false)
+            viewModelScope.launch {
+                editShopItemUseCase.editShopItem(newItem)
+            }
         }
     }
 

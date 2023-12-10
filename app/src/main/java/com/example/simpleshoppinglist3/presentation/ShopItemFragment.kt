@@ -11,6 +11,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
+import android.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.simpleshoppinglist3.R
@@ -60,6 +61,7 @@ class ShopItemFragment() : Fragment() {
         Log.d("ShopItemFragment", "===================================")
         return layoutInflater.inflate(R.layout.fragment_shop_item, container, false)
     }
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         Log.d("ShopItemFragment", "onViewCreated")
