@@ -114,7 +114,7 @@ class MainActivity : AppCompatActivity(), ShopItemFragment.OnEditingFinishedList
 
             showHelpDialog()
         } else {
-            //showHelpDialog()
+//            showHelpDialog()
             return
         }
     }
@@ -142,8 +142,8 @@ class MainActivity : AppCompatActivity(), ShopItemFragment.OnEditingFinishedList
                 R.id.delete_all_shop_item ->
                     dialogBinding.etTextMessage.text = getText(R.string.all_item_delete)
 
-                R.id.send_item ->
-                    dialogBinding.etTextMessage.text = "dssdfgsdfg"
+//                R.id.send_item ->
+//                    dialogBinding.etTextMessage.text = "dssdfgsdfg"
             }
             Log.d("MyLog111", onPressItemId.toString())
             dialog.show()
@@ -188,7 +188,7 @@ class MainActivity : AppCompatActivity(), ShopItemFragment.OnEditingFinishedList
 
         val dialog = builder.create()
         dialog.show()
-//        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
 
         dialogBinding.btnConfirm.setOnClickListener {
             dialog.dismiss()
