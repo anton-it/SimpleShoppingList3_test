@@ -19,4 +19,5 @@
     <string name="menu_title_enable_all_items">Enable all products</string>
     <string name="menu_title_disable_all_items">Disable all products</string>
     <string name="menu_title_delete_all_items">Delete all products</string>
+    <string name="send_items_list">Send items list</string>
 </resources>

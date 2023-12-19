@@ -20,12 +20,15 @@
         android:title="@string/menu_title_delete_all_items"
         android:icon="@drawable/ic_delete"/>
 
+    <item
+        android:id="@+id/send_item"
+        android:title="@string/send_items_list"
+        android:icon="@drawable/ic_share"/>
+
     </menu>
 
 </item>
-  <!--  <item
-        android:id="@+id/send_item"
-        android:title="Send items list"/> -->
+
 
 
 </menu>

@@ -19,4 +19,5 @@
     <string name="menu_title_enable_all_items">Сделать все товары активными</string>
     <string name="menu_title_disable_all_items">Сделать все товары не активными</string>
     <string name="menu_title_delete_all_items">Удалить все товары</string>
+    <string name="send_items_list">Поделиться списком</string>
 </resources>

@@ -1,7 +1,10 @@
 package com.example.simpleshoppinglist3.presentation
 
 import android.app.Application
+import android.util.Log
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.simpleshoppinglist3.data.ShopListRepositoryImpl
 import com.example.simpleshoppinglist3.domain.DeleteShopItemUseCase
@@ -19,6 +22,11 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     private val editShopItemUseCase = EditShopItemUseCase(repository)
     private val deleteShopItemUseCase = DeleteShopItemUseCase(repository)
     private val moveShopItemUseCase = MoveShopItemUseCase(repository)
+
+    private val _enableStateShopItemList = MutableLiveData<String>()
+    val enableStateShopItemList: LiveData<String>
+        get() = _enableStateShopItemList
+
 
     val shopList = getShopListUseCase.getShopList()
 
@@ -44,21 +52,32 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     fun changeAllEnableState(shopItemList: MutableList<ShopItem>) {
-        for (shopItem in 0 until shopItemList.size) {
-            val newItem = shopItemList[shopItem].copy(enabled = true)
+        for (item in 0 until shopItemList.size) {
+            val newItem = shopItemList[item].copy(enabled = true)
             viewModelScope.launch {
                 editShopItemUseCase.editShopItem(newItem)
             }
         }
     }
 
-    fun changeAllDisableState(itemList: MutableList<ShopItem>) {
-        for (shopItem in 0 until itemList.size) {
-            val newItem = itemList[shopItem].copy(enabled = false)
+    fun changeAllDisableState(shopItemList: MutableList<ShopItem>) {
+        for (item in 0 until shopItemList.size) {
+            val newItem = shopItemList[item].copy(enabled = false)
             viewModelScope.launch {
                 editShopItemUseCase.editShopItem(newItem)
             }
         }
+    }
+
+    fun getEnableStateShopItemList(shopItemList: MutableList<ShopItem>) {
+        var enableStateItemList = ""
+        for (item in 0 until shopItemList.size) {
+            if (shopItemList[item].enabled) {
+                enableStateItemList += "${shopItemList[item].name}   ${shopItemList[item].count} \n"
+            }
+        }
+        enableStateItemList +="\n\n"
+        _enableStateShopItemList.value = enableStateItemList
     }
 
     fun moveShopItem(sourcePosition: Int, targetPosition: Int) {

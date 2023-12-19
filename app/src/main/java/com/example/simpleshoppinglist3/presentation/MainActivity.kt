@@ -1,17 +1,20 @@
 package com.example.simpleshoppinglist3.presentation
 
+import android.content.Intent
 import android.content.SharedPreferences
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
+import com.airbnb.lottie.BuildConfig
 import com.example.simpleshoppinglist3.R
 import com.example.simpleshoppinglist3.databinding.CustomConfirmDialogViewBinding
 import com.example.simpleshoppinglist3.databinding.CustomHelpDialogViewBinding
@@ -21,6 +24,7 @@ import java.util.Collections
 
 const val APP_PREFERENCES = "APP_PREFERENCES"
 const val PREF_FIRST_START_APP = "1"
+
 class MainActivity : AppCompatActivity(), ShopItemFragment.OnEditingFinishedListener {
 
     private lateinit var viewModel: MainViewModel
@@ -32,6 +36,8 @@ class MainActivity : AppCompatActivity(), ShopItemFragment.OnEditingFinishedList
     private lateinit var preferences: SharedPreferences
 
     private lateinit var customToolbarMenu: Toolbar
+
+    private lateinit var enableStateShopList: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,6 +53,10 @@ class MainActivity : AppCompatActivity(), ShopItemFragment.OnEditingFinishedList
         viewModel = ViewModelProvider(this)[MainViewModel::class.java]
         viewModel.shopList.observe(this) {
             shopListAdapter.submitList(it)
+        }
+
+        viewModel.enableStateShopItemList.observe(this) {
+            enableStateShopList = it
         }
 
         val buttonAddItem = findViewById<FloatingActionButton>(R.id.button_add_shop_item)
@@ -86,9 +96,9 @@ class MainActivity : AppCompatActivity(), ShopItemFragment.OnEditingFinishedList
         if (onPressItemId == R.id.disable_all_shop_item) {
             showConfirmDialog(onPressItemId)
         }
-//        if (onPressItemId == R.id.send_item) {
-//            Toast.makeText(this, "Send items list", Toast.LENGTH_SHORT).show()
-//        }
+        if (onPressItemId == R.id.send_item) {
+            showConfirmDialog(onPressItemId)
+        }
         return true
     }
 
@@ -115,33 +125,58 @@ class MainActivity : AppCompatActivity(), ShopItemFragment.OnEditingFinishedList
 
         val dialogBinding = CustomConfirmDialogViewBinding.inflate(layoutInflater)
 
-        val builder = AlertDialog.Builder(this@MainActivity)
-        builder.setView(dialogBinding.root)
-        val dialog = builder.create()
-        when(onPressItemId) {
-            R.id.enable_all_shop_item ->
-                dialogBinding.etTextMessage.text = getText(R.string.all_item_enable)
-            R.id.disable_all_shop_item ->
-                dialogBinding.etTextMessage.text = getText(R.string.all_item_disable)
-            R.id.delete_all_shop_item ->
-                dialogBinding.etTextMessage.text = getText(R.string.all_item_delete)
-        }
-        dialog.show()
-        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+        if (onPressItemId == R.id.send_item) {
+            viewModel.getEnableStateShopItemList(itemList)
+            setShopItemListToMessengers()
+        } else {
+            val builder = AlertDialog.Builder(this@MainActivity)
+            builder.setView(dialogBinding.root)
+            val dialog = builder.create()
+            when (onPressItemId) {
+                R.id.enable_all_shop_item ->
+                    dialogBinding.etTextMessage.text = getText(R.string.all_item_enable)
 
-        dialogBinding.btnConfirm.setOnClickListener {
-            when(onPressItemId) {
-                R.id.enable_all_shop_item -> viewModel.changeAllEnableState(itemList)
-                R.id.disable_all_shop_item -> viewModel.changeAllDisableState(itemList)
-                R.id.delete_all_shop_item -> viewModel.deleteAllShopItem(itemList)
+                R.id.disable_all_shop_item ->
+                    dialogBinding.etTextMessage.text = getText(R.string.all_item_disable)
+
+                R.id.delete_all_shop_item ->
+                    dialogBinding.etTextMessage.text = getText(R.string.all_item_delete)
+
+                R.id.send_item ->
+                    dialogBinding.etTextMessage.text = "dssdfgsdfg"
             }
-            dialog.dismiss()
-        }
-        dialogBinding.btnCancel.setOnClickListener {
-            dialog.dismiss()
-        }
+            Log.d("MyLog111", onPressItemId.toString())
+            dialog.show()
+            dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
 
+            dialogBinding.btnConfirm.setOnClickListener {
+                if (onPressItemId == R.id.enable_all_shop_item) {
+                    viewModel.changeAllEnableState(itemList)
+                }
+                if (onPressItemId == R.id.disable_all_shop_item) {
+                    viewModel.changeAllDisableState(itemList)
+                }
+                if (onPressItemId == R.id.delete_all_shop_item) {
+                    viewModel.deleteAllShopItem(itemList)
+                }
+                dialog.dismiss()
+            }
+            dialogBinding.btnCancel.setOnClickListener {
+                dialog.dismiss()
+            }
+        }
     }
+
+    private fun setShopItemListToMessengers() {
+        val intent = Intent(Intent.ACTION_SEND)
+        intent.type = "text/plain"
+        intent.putExtra(
+            Intent.EXTRA_TEXT,
+            enableStateShopList + APP_LINK
+        )
+        startActivity(Intent.createChooser(intent, getString(R.string.send_items_list)))
+    }
+
 
     private fun showHelpDialog() {
         val dialogBinding = CustomHelpDialogViewBinding.inflate(layoutInflater)
@@ -207,7 +242,7 @@ class MainActivity : AppCompatActivity(), ShopItemFragment.OnEditingFinishedList
 
                 viewModel.moveShopItem(sourcePosition, targetPosition)
 
-               //Collections.swap(shopList, sourcePosition, targetPosition)
+                //Collections.swap(shopList, sourcePosition, targetPosition)
 
                 return false
             }
@@ -241,5 +276,6 @@ class MainActivity : AppCompatActivity(), ShopItemFragment.OnEditingFinishedList
 
         private const val APP_FIRS_START_TRUE = "1"
         private const val APP_FIRS_START_FALSE = "0"
+        private const val APP_LINK = "https://apps.rustore.ru/app/com.example.simpleshoppinglist3"
     }
 }
